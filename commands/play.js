@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders")
-const { MessageEmbed } = require("discord.js")
+const { EmbedBuilder } = require("discord.js")
 const { QueryType } = require("discord-player")
 
 module.exports = {
@@ -14,12 +14,12 @@ module.exports = {
 					option.setName("searchterms").setDescription("search keywords").setRequired(true)
 				)
 		)
-        .addSubcommand(subcommand =>
-			subcommand
-				.setName("playlist")
-				.setDescription("Plays a playlist from YT")
-				.addStringOption(option => option.setName("url").setDescription("the playlist's url").setRequired(true))
-		)
+        // .addSubcommand(subcommand =>
+		// 	subcommand
+		// 		.setName("playlist")
+		// 		.setDescription("Plays a playlist from YT")
+		// 		.addStringOption(option => option.setName("url").setDescription("the playlist's url").setRequired(true))
+		// )
 		.addSubcommand(subcommand =>
 			subcommand
 				.setName("song")
@@ -36,7 +36,7 @@ module.exports = {
         // Wait until you are connected to the channel
 		if (!queue.connection) await queue.connect(interaction.member.voice.channel)
 
-		let embed = new MessageEmbed()
+		let embed = new EmbedBuilder()
 
 		if (interaction.options.getSubcommand() === "song") {
             let url = interaction.options.getString("url")

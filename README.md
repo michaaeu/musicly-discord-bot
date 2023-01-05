@@ -1,5 +1,8 @@
 # Basic discord music bot using discord js and discord-player
 
+Forked from [pawel02](https://github.com/pawel02/discord-js-music-bot) and updated.
+
+# Setup
 After you have cloned the repo make sure to create a `.env` file with the `TOKEN` and `CLIENT_ID` specified for example
 
 ```
@@ -7,9 +10,6 @@ TOKEN=xxx
 CLIENT_ID=xxx
 ```
 
-# Running with docker
-
-`docker run -e TOKEN=<your_token_here> -e CLIENT_ID=<your_client_id_here> -d pabolo02345/discord-js-music-bot`
 
 # Commands
 
@@ -23,3 +23,4 @@ CLIENT_ID=xxx
 - pause  - pauses the current song
 - resume - resumes playing the current song
 - exit   - kicks the bot from the voice channel
+

@@ -4,10 +4,10 @@ const { QueryType } = require("discord-player")
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("play")
-        .setDescription("Plays a single song from YT")
+        .setName("search")
+        .setDescription("Searches for a song and plays it")
         .addStringOption(
-            option => option.setName("url").setDescription("the song's url").setRequired(true)
+            option => option.setName("searchterms").setDescription("search keywords").setRequired(true)
         )
     ,
     execute: async ({ client, interaction }) => {
@@ -22,18 +22,16 @@ module.exports = {
 
         let embed = new EmbedBuilder()
 
-
-        let url = interaction.options.getString("url")
-
         // Search for the song using the discord-player
+        let url = interaction.options.getString("searchterms")
         const result = await client.player.search(url, {
             requestedBy: interaction.user,
-            searchEngine: QueryType.YOUTUBE_VIDEO
+            searchEngine: QueryType.AUTO
         })
 
         // finish if no tracks were found
         if (result.tracks.length === 0)
-            return interaction.reply("No results")
+            return interaction.editReply("No results")
 
         // Add the track to the queue
         const song = result.tracks[0]

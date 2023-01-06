@@ -4,10 +4,10 @@ const { QueryType } = require("discord-player")
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("play")
-        .setDescription("Plays a single song from YT")
+        .setName("playlist")
+        .setDescription("Plays a playlist from YT")
         .addStringOption(
-            option => option.setName("url").setDescription("the song's url").setRequired(true)
+            option => option.setName("url").setDescription("the playlist's url").setRequired(true)
         )
     ,
     execute: async ({ client, interaction }) => {
@@ -22,27 +22,22 @@ module.exports = {
 
         let embed = new EmbedBuilder()
 
-
+        // Search for the playlist using the discord-player
         let url = interaction.options.getString("url")
-
-        // Search for the song using the discord-player
         const result = await client.player.search(url, {
             requestedBy: interaction.user,
-            searchEngine: QueryType.YOUTUBE_VIDEO
+            searchEngine: QueryType.YOUTUBE_PLAYLIST
         })
 
-        // finish if no tracks were found
         if (result.tracks.length === 0)
-            return interaction.reply("No results")
+            return interaction.reply(`No playlists found with ${url}`)
 
-        // Add the track to the queue
-        const song = result.tracks[0]
-        await queue.addTrack(song)
+        // Add the tracks to the queue
+        const playlist = result.playlist
+        await queue.addTracks(result.tracks)
         embed
-            .setDescription(`**[${song.title}](${song.url})** has been added to the Queue`)
-            .setThumbnail(song.thumbnail)
-            .setFooter({ text: `Duration: ${song.duration}` })
-
+            .setDescription(`**${result.tracks.length} songs from [${playlist.title}](${playlist.url})** have been added to the Queue`)
+        // .setThumbnail(playlist.thumbnail)
 
         // Play the song
         if (!queue.playing) await queue.play()

@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require("@discordjs/builders")
 
 module.exports = {
 	data: new SlashCommandBuilder()
-        .setName("exit")
+        .setName("stop")
         .setDescription("Kick the bot from the channel."),
 	execute: async ({ client, interaction }) => {
 
